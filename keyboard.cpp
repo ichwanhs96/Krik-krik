@@ -33,5 +33,7 @@ char keyboard::getInput(){
 	// Reset terminal to normal "cooked" mode 
 	system("stty cooked"); 
 	
+	cout << "\b\b\b\b\b    \b\b\b\b\b";
+	
 	return input;
 }

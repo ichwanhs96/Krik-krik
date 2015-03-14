@@ -37,7 +37,9 @@ vector<Point> figure::makeFigure(vector<Point> v_point){
 	vector<Point> figure_point;
 	vector<Point> line_point;
 	
-    for (int i=0;i<v_point.size()-1;i++) {
+	int iterator = v_point.size()-1;
+	
+    for (int i=0;i < iterator;i++) {
         line_point = makeLine(v_point[i],v_point[i+1]);
         otherfunction::addVector(line_point,&figure_point);
     }

@@ -34,7 +34,7 @@ struct Vector3i {
 };
 
 
-vector<Point> make_cube();
+vector<Point> make_cube(Vector3i eye);
 
 
 /*** MAIN PROGRAM ***/
@@ -45,36 +45,50 @@ int main() {
     /*** MAIN ***/
     /* Declarations */
     vector<Point> figure_point;
-    vector<Point> heli_pos,ship_pos;
     Color c;
     char input_key;
+    Vector3i eyeView = {320, 240, 100};
 
     /* Initialization */
     c.R = 255;
     c.G = 255;
     c.B = 255;
 
-	figure_point = make_cube();
-	grafika.draw(figure_point, c);
+	
     
     while(input_key!='q'){
+		figure_point = make_cube(eyeView);
+		grafika.draw(figure_point, c);
+		
 		input_key = keyboard::getInput();
-		printf("input key = %c \n", input_key);
+		
+		if(input_key == 67)
+			eyeView.x += 10;
+		if(input_key == 68)
+			if(eyeView.x > 0)
+				eyeView.x -=10;
+		if(input_key == 65)
+			eyeView.y += 10;
+		if(input_key == 66)
+			if(eyeView.y > 0)
+				eyeView.y -= 10;
+		
+		grafika.clearScreen();
+		//printf("input key = %c kode = %d\n", input_key, input_key);
+		// atas = 65 bawah = 66 kanan = 67 kiri = 68
 	}
-
     grafika.~screen();
-
 	return 0;
 }
 
 
-vector<Point> make_cube()
+vector<Point> make_cube(Vector3i eye)
 {
 	// lets assume 640x480 res.
 	// Our "eye" is where we are viewing from, which
 	// is about 800 pixels towards me and in the center of
 	// the screen.
-	Vector3i eye = {320, 240, 100};
+	//Vector3i eye = {320, 240, 100};
 	
 	// This is the point that we're projecting onto
 	// our 2D plane.
@@ -170,6 +184,50 @@ vector<Point> make_cube()
 	
 	dot_point.clear();
 	
+	dot_point.push_back(A5);
+	dot_point.push_back(A6);
+	dot_point.push_back(A8);
+	dot_point.push_back(A7);
+	dot_point.push_back(A5);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	dot_point.clear();
+	
+	dot_point.push_back(A1);
+	dot_point.push_back(A5);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	dot_point.clear();
+	
+	dot_point.push_back(A3);
+	dot_point.push_back(A7);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	dot_point.clear();
+	
+	dot_point.push_back(A2);
+	dot_point.push_back(A6);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	dot_point.clear();
+	
+	dot_point.push_back(A4);
+	dot_point.push_back(A8);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	dot_point.clear();
+	
+	/* 
 	if(A5.x >= A1.x && A5.y >= A1.y && A5.x <= A2.x && A5.y >= A2.y && A5.x >= A3.x && A5.y <= A3.y && A5.x <= A4.x && A5.y <= A4.y){
 		dot_point.push_back(A6);
 		dot_point.push_back(A8);
@@ -309,6 +367,7 @@ vector<Point> make_cube()
 		
 		dot_point.clear();
 	}
+	*/
 	
 	return cube_point;
 }

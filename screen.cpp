@@ -1,6 +1,7 @@
 #include "screen.h"
 #include "Point.h"
 #include "Color.h"
+#include "otherfunction.h"
 
 #include <vector>
 
@@ -18,9 +19,6 @@
 using namespace std;
 
 screen::screen(){
-	int location;					/* iterate to location */
-
-	int x, y;					/* x and y location */
 
 	/* open the file for reading and writing */
 	fbfd = open("/dev/fb0",O_RDWR);
@@ -28,7 +26,7 @@ screen::screen(){
 		printf("Error: cannot open framebuffer device.\n");
 		exit(1);
 	}
-	printf ("The framebuffer device was opened successfully.\n");
+	//printf ("The framebuffer device was opened successfully.\n");
 
 	/* get the fixed screen information */
 	if (ioctl (fbfd, FBIOGET_FSCREENINFO, &finfo)) {
@@ -57,9 +55,6 @@ screen::screen(){
 
 screen::screen(long int screensize){
 	screensize = screensize;
-	int location;					/* iterate to location */
-
-	int x, y;					/* x and y location */
 
 	/* open the file for reading and writing */
 	fbfd = open("/dev/fb0",O_RDWR);
@@ -67,7 +62,7 @@ screen::screen(long int screensize){
 		printf("Error: cannot open framebuffer device.\n");
 		exit(1);
 	}
-	printf ("The framebuffer device was opened successfully.\n");
+	//printf ("The framebuffer device was opened successfully.\n");
 
 	/* get the fixed screen information */
 	if (ioctl (fbfd, FBIOGET_FSCREENINFO, &finfo)) {
@@ -95,13 +90,16 @@ screen::screen(long int screensize){
 }
 
 screen::~screen(){
+	displayPoint.clear();
+	vector<Point>().swap(displayPoint);
 	munmap(fbp, screensize);
 	close(fbfd);
 }
 
 void screen::draw(vector<Point> draw_point, Color color){
 	int location;
-    for (int i=0;i<draw_point.size();i++)
+	int iterator = draw_point.size();
+    for (int i=0;i < iterator;i++)
     {
         location = getLocationForBuffer(draw_point[i]);
         if (vinfo.bits_per_pixel == 32)
@@ -114,6 +112,8 @@ void screen::draw(vector<Point> draw_point, Color color){
             *((unsigned short int*)(fbp + location)) = t;
         }
     }
+    
+    otherfunction::addVector(draw_point, &displayPoint);
 }
 
 void screen::putPixel(Point P, Color color){
@@ -127,4 +127,11 @@ void screen::putPixel(Point P, Color color){
 
 int screen::getLocationForBuffer(Point P){
 	return (P.x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (P.y+vinfo.yoffset) * finfo.line_length;
+}
+
+void screen::clearScreen(){
+	Color c;
+	c.R = 0; c.G = 0; c.B = 0;
+	draw(displayPoint, c);
+	displayPoint.clear();
 }

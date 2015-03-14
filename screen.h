@@ -27,11 +27,13 @@ class screen{
         void draw(vector<Point> draw_point, Color color);
         void putPixel(Point P, Color color);
         int getLocationForBuffer(Point P);
+        void clearScreen();
 	private:
 		long int screensize;
 		int fbfd;  /* frame buffer file descriptor */
 		char* fbp; /* pointer to framebuffer */
 		struct fb_var_screeninfo vinfo;
 		struct fb_fix_screeninfo finfo;
+		vector<Point> displayPoint;
 };
 #endif
