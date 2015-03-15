@@ -176,6 +176,37 @@ vector<Point> figure::make3DCube(Vector3i P[], Vector3i eye){
 	vector<Point>().swap(dot_point);
 	vector<Point>().swap(fig_point);
 	
+	Point min, max;
+	int iterator;
+	vector<int> counter;
+	iterator = 8;
+	
+	min.x = A1[0].x;
+	min.y = A1[0].y;
+	//search min point
+	for(int i = 0; i < iterator; i++){
+		if(min.x > A1[i].x)
+			min.x = A1[i].x;
+		if(min.y > A1[i].y)
+			min.y = A1[i].y;
+	}
+	
+	max.x = A1[0].x;
+	max.y = A1[0].y;
+	//search max point
+	for(int i = 0; i < iterator; i++){
+		if(max.x < A1[i].x)
+			max.x = A1[i].x;
+		if(max.y < A1[i].y)
+			max.y = A1[i].y;
+	}
+	
+	//find if there is point in the rectangle min max
+	for(int i = 0; i < iterator; i++){
+		if(A1[i].x > min.x && A1[i].x < max.x && A1[i].y > min.y && A1[i].y <max.y){
+			counter.push_back(i);
+		}
+	}
 	
 	dot_point.push_back(A1[4]);
 	dot_point.push_back(A1[5]);
