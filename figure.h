@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "Point.h"
+#include "Vector3i.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ class figure{
 		static vector<Point> makeFigure(vector<Point> v_point);
 		static vector<Point> makeCircle(Point p, int r);
 		static vector<Point> makeObject(string filename);
+		static vector<Point> make3DCube(Vector3i P[], Vector3i eye);
 };
 
 #endif

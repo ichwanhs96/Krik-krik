@@ -8,6 +8,7 @@ class keyboard{
 		keyboard();
 		~keyboard();
 		static char getInput();
+		static void checkInput(char input);
 };
 
 #endif

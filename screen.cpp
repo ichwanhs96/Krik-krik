@@ -4,6 +4,7 @@
 #include "otherfunction.h"
 
 #include <vector>
+#include <string>
 
 #include <unistd.h>
 #include <fcntl.h>		/* for fcntl */
@@ -90,15 +91,20 @@ screen::screen(long int screensize){
 }
 
 screen::~screen(){
-	displayPoint.clear();
-	vector<Point>().swap(displayPoint);
+	displayDynamicPoint.clear();
+	vector<Point>().swap(displayDynamicPoint);
+	displayStaticPoint.clear();
+	vector<Point>().swap(displayStaticPoint);
 	munmap(fbp, screensize);
 	close(fbfd);
 }
 
-void screen::draw(vector<Point> draw_point, Color color){
+void screen::draw(vector<Point> draw_point, Color color, string type){
 	int location;
 	int iterator = draw_point.size();
+	string strDynamic = "dynamic";
+	string strStatic = "static";
+	
     for (int i=0;i < iterator;i++)
     {
         location = getLocationForBuffer(draw_point[i]);
@@ -113,7 +119,14 @@ void screen::draw(vector<Point> draw_point, Color color){
         }
     }
     
-    otherfunction::addVector(draw_point, &displayPoint);
+    if(type.compare(strDynamic) == 0)
+    {
+		otherfunction::addVector(draw_point, &displayDynamicPoint);
+	}
+    else if (type.compare(strStatic) == 0)
+    {
+		otherfunction::addVector(draw_point, &displayStaticPoint);
+	}
 }
 
 void screen::putPixel(Point P, Color color){
@@ -132,6 +145,21 @@ int screen::getLocationForBuffer(Point P){
 void screen::clearScreen(){
 	Color c;
 	c.R = 0; c.G = 0; c.B = 0;
-	draw(displayPoint, c);
-	displayPoint.clear();
+	draw(displayDynamicPoint, c, "");
+	displayDynamicPoint.clear();
+}
+
+vector<Point> screen::getDisplayPoint(string type){
+	string strDynamic = "dynamic";
+	string strStatic = "static";
+	if(type.compare(strDynamic) == 0)
+    {
+		return displayDynamicPoint;
+	}
+    else if (type.compare(strStatic) == 0)
+    {
+		return displayStaticPoint;
+	}
+	else
+		return displayDynamicPoint;
 }

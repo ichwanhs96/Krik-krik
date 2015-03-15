@@ -1,6 +1,8 @@
 #include "figure.h"
 #include "Point.h"
 #include "otherfunction.h"
+#include "Vector3i.h"
+#include "Vector2i.h"
 
 #include <vector>
 #include <cmath>
@@ -104,4 +106,124 @@ vector<Point> figure::makeObject(string filename){
 		printf("nama file harus diisi!\n");
 
     return object_point;
+}
+
+vector<Point> figure::make3DCube(Vector3i P[], Vector3i eye){
+	// lets assume 640x480 res.
+	// Our "eye" is where we are viewing from, which
+	// is about 800 pixels towards me and in the center of
+	// the screen.
+	//Vector3i eye = {320, 240, 100};
+	
+	// This is the point that we're projecting onto
+	// our 2D plane.
+	
+	// This will be the 2D coords of our perspective projection.
+	Vector2i S[8];
+	
+	// ----------------------------------------	
+	// Formula to solve Sx
+	// ----------------------------------------
+	// Ez = distance from eye to the center of the screen
+	// Ex = X coordinate of the eye
+	// Px = X coordinate of the 3D point
+	// Pz = Z coordinate of the 3D point
+	//
+    //              Ez*(Px-Ex)
+    // Sx  = -----------------------  + Ex   
+	//  			  Ez+Pz 
+	
+	for(int i=0; i<8; i++){
+		S[i].x = (eye.z * (P[i].x-eye.x)) / (eye.z + P[i].z) + eye.x;
+	}
+	
+	// ----------------------------------------	
+	// Formula to solve Sy
+	// ----------------------------------------
+	// Ez = distance from eye to the center of the screen
+	// Ey = Y coordinate of the eye	
+	// Py = Y coordinate of the 3D point
+	// Pz = Z coordinate of the 3D point	
+	//
+    //            Ez*(Py-Ey)
+    // Sy  = -------------------  + Ey      
+    //              Ez+Pz
+    
+    for(int i=0; i<8; i++){
+		S[i].y = (eye.z * (P[i].y-eye.y)) / (eye.z + P[i].z) + eye.y;
+	}
+	
+	Point A1[8];
+	
+	for(int i=0; i<8; i++){
+		A1[i].x = S[i].x;
+		A1[i].y = S[i].y;
+	}
+	
+	
+    vector<Point> cube_point,dot_point,fig_point;
+	
+	dot_point.push_back(A1[0]);
+	dot_point.push_back(A1[1]);
+	dot_point.push_back(A1[3]);
+	dot_point.push_back(A1[2]);
+	dot_point.push_back(A1[0]);
+	
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	vector<Point>().swap(dot_point);
+	vector<Point>().swap(fig_point);
+	
+	
+	dot_point.push_back(A1[4]);
+	dot_point.push_back(A1[5]);
+	dot_point.push_back(A1[7]);
+	dot_point.push_back(A1[6]);
+	dot_point.push_back(A1[4]);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	vector<Point>().swap(dot_point);
+	vector<Point>().swap(fig_point);
+	
+	dot_point.push_back(A1[0]);
+	dot_point.push_back(A1[4]);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	vector<Point>().swap(dot_point);
+	vector<Point>().swap(fig_point);
+	
+	dot_point.push_back(A1[2]);
+	dot_point.push_back(A1[6]);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	vector<Point>().swap(dot_point);
+	vector<Point>().swap(fig_point);
+	
+	dot_point.push_back(A1[1]);
+	dot_point.push_back(A1[5]);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	vector<Point>().swap(dot_point);
+	vector<Point>().swap(fig_point);
+	
+	dot_point.push_back(A1[3]);
+	dot_point.push_back(A1[7]);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	vector<Point>().swap(dot_point);
+	vector<Point>().swap(fig_point);
+	
+	return cube_point;
 }

@@ -37,3 +37,7 @@ char keyboard::getInput(){
 	
 	return input;
 }
+
+void keyboard::checkInput(char input){
+	printf("input = %c kode = %d\n", input, input); 
+}
