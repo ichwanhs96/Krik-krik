@@ -21,6 +21,7 @@ class figure{
 		static vector<Point> make3DCube(Vector3i P[], Vector3i eye);
 		static vector<Point> moveFigure(vector<Point> figurePoint, int moveX, int moveY);
 		static Point getPositionFigure(vector<Point> figurePoint);
+		static vector<Point> rotateFigure(vector<Point> figurePoint, int angle);
 };
 
 #endif

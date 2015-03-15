@@ -517,3 +517,14 @@ Point figure::getPositionFigure(vector<Point> figurePoint){
 	}
 	return result;
 }
+
+vector<Point> figure::rotateFigure(vector<Point> figurePoint, int angle){
+	int iterator = figurePoint.size();
+	vector<Point> result;
+	result.resize(iterator);
+	for(int i = 0; i < iterator; i++){
+		result[i].x = figurePoint[i].x * cos(angle) - figurePoint[i].y * sin(angle);
+		result[i].y = figurePoint[i].x * sin(angle) - figurePoint[i].y * cos(angle);
+	}
+	return result;
+}

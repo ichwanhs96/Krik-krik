@@ -7,6 +7,8 @@
 #include "otherfunction.h"
 #include "screen.h"
 #include "zooming.h"
+#include "Zoom.h"
+#include "Vector3i.h"
 
 
 #include <unistd.h>
@@ -48,6 +50,19 @@ int main() {
 
     /*** FRAME DRAW ***/
     scr.draw(figure::makeObject("frame.txt"),white,"static");
+    
+    /*** 3d cube ***/
+    Vector3i P1[8];
+    Vector3i eyeView = {640,320,100};
+    P1[0] = {20, 450, 100};
+	P1[1] = {80, 450, 100};
+	P1[2] = {20, 550, 100};
+	P1[3] = {80, 550, 100};
+	P1[4] = {20, 450, 200};
+	P1[5] = {80, 450, 200};
+	P1[6] = {20, 550, 200};
+	P1[7] = {80, 550, 200};
+
 
     /*** BUBBLE DRAW ***/
     // red bubble
@@ -140,6 +155,8 @@ int main() {
 		scr.draw(panning_point, c, "dynamic");
 		scr.draw(window_point, c, "dynamic");
 		scr.draw(karakter_point, c, "dynamic");
+		
+		scr.draw(figure::make3DCube(P1,eyeView), c, "dynamic");
 		
 		makeColorBubble(centerRed, red);
 		makeColorBubble(centerYellow, yellow);
@@ -240,6 +257,9 @@ int main() {
 				for(int i = 0; i < it; i++){
 					otherfunction::deleteVector(&tmp2, tmp1[i]);
 				}
+				
+				vector<Zoom> temp = scr.getZoomingPoint();
+				
 				switch(virusImage){
 					case 0: scr.addZoomingPoint("karakter_kotak.txt", tmp2);
 							break;

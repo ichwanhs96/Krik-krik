@@ -6,7 +6,7 @@
 #include "figure.h"
 #include "otherfunction.h"
 #include "screen.h"
-
+#include "Vector3i.h"
 
 #include <unistd.h>
 #include <fcntl.h>		/* for fcntl */
