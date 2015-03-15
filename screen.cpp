@@ -179,7 +179,7 @@ Color screen::getPixel(Point P){
 bool screen::is_black(Point P)
 {
     Color c = getPixel(P);
-    return (c.getR() == 0 && c.getG() == 0 && c.getB() == 0);
+    return (c.getR() == 1 && c.getG() == 1 && c.getB() == 1);
 }
 
 void screen::flood_fill(Point P, Color color)

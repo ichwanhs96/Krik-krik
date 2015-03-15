@@ -11,7 +11,6 @@ class otherfunction{
 		otherfunction();
 		~otherfunction();
 		static void addVector(vector<Point> src, vector<Point> *dest);
-		static void deleteVector(vector<Point> *src, Point P);
 };
 
 #endif

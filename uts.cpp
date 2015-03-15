@@ -6,6 +6,7 @@
 #include "figure.h"
 #include "otherfunction.h"
 #include "screen.h"
+#include "rect.h"
 
 
 #include <unistd.h>
@@ -22,48 +23,125 @@
 #include <cmath>
 #include <time.h>
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 
+screen scr;
+
+void drawVirus(vector<Point> *virusDistance, vector<int> *virusType, vector<Color> *virusColor);
 void makeColorBubble(screen *scr, Point center, Color color);
 void makeBubbleFigureIn(screen *scr, Point center, Color color, string figureName);
 
-int main() {
-    screen scr;
 
-    // all color used
+int main() {
+    const int virus_width = 21;
+    const int virus_height = 23;
+    srand(time(NULL));
+
+    /* Color used */
     Color white(255,255,255);
     Color red(255,0,0);
     Color green(0,255,0);
     Color yellow(255,255,0);
 
-    // frame
-    scr.draw(figure::makeObject("frame.txt"),white,"static");
-
     Point center;
 
-    center.x = 200;
-    center.y = 400;
+    /*** FRAME DRAW ***/
+    scr.draw(figure::makeObject("frame.txt"),white,"static");
 
+
+
+    /*** VIRUS DRAW ***/
+    vector<Point> virusDistance;
+    vector<int> virusType;
+    vector<Color> virusColor;
+
+    drawVirus(&virusDistance,&virusType,&virusColor);
+
+    /*** BUBBLE DRAW ***/
     // red bubble
+    center.x = 340;
+    center.y = 550;
     makeColorBubble(&scr, center, red);
 
     // yellow bubble
-    center.x += 50;
+    center.x += 100;
     makeColorBubble(&scr, center, yellow);
 
     // green bubble
-    center.x += 50;
+    center.x += 100;
     makeColorBubble(&scr, center, green);
 
     // circle with figure inside
-    center.x = 130;
-    center.y = 350;
-    makeBubbleFigureIn(&scr, center, green, "square");
+    center.x = 220;
+    center.y = 530;
+    makeBubbleFigureIn(&scr, center, green, "square"); // square, diamond, triangle
+
+    /******** Game Looping ********/
+    do {
+
+    } while (keyboard::getInput() != '`');
 
     scr.~screen();
+    return 0;
 }
 
+void drawVirus(vector<Point> *virusDistance, vector<int> *virusType, vector<Color> *virusColor) {
+    vector<vector<Point>> virusPoint;
+    const int nVirus = 15;
+    const int offsetVirusX = 175;
+    const int offsetVirusY = 100;
+    const int virusIntervalX = 100;
+    const int virusIntervalY = 100;
+    const int xBoundary = 500;
+    int colorType;
+
+    string virusFile = "";
+
+
+    Point P;
+    P.x = 0;
+    P.y = 0;
+
+    for (int i = 0 ;i<nVirus;i++) {
+        (*virusType).push_back(rand() % 3);
+
+        P.x = i*virusIntervalX;
+        P.y = 0;
+        if (P.x / xBoundary > 0) {
+            for (int j = 0 ;j< (P.x/xBoundary);j++) {
+                P.y += virusIntervalY;
+            }
+            P.x = P.x % xBoundary;
+        }
+
+        (*virusDistance).push_back(P);
+        switch ((*virusType)[i]) {
+            case 0: virusFile = "karakter_diamond.txt";
+                    break;
+            case 1: virusFile = "karakter_kotak.txt";
+                    break;
+            case 2: virusFile = "karakter_segitiga.txt";
+                    break;
+        }
+
+        colorType = rand() % 3;
+        switch (colorType) {
+            case 0: (*virusColor).push_back(Color(255,0,0)); break;
+            case 1: (*virusColor).push_back(Color(0,255,0)); break;
+            case 2: (*virusColor).push_back(Color(0,0,255)); break;
+        }
+
+        (*virusDistance)[i].x += offsetVirusX;
+        (*virusDistance)[i].y += offsetVirusY;
+        virusPoint.push_back(figure::moveFigure(figure::makeObject(virusFile),(*virusDistance)[i].x,(*virusDistance)[i].y));
+        P.x = (*virusDistance)[i].x+1;
+        P.y = (*virusDistance)[i].y+8;
+        scr.draw(virusPoint[i],Color(255,255,255),"dynamic");
+        scr.flood_fill(P,(*virusColor)[i]);
+    }
+}
 
 void makeColorBubble(screen *scr, Point center, Color color){
     vector<Point> bubble;

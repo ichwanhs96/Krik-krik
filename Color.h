@@ -5,7 +5,7 @@ class Color {
    public :
         Color();
         Color(int R_,int G_, int B_);
-        Color& operator=(const Color& c);
+        void operator=(Color& c);
         int getR();
         int getG();
         int getB();

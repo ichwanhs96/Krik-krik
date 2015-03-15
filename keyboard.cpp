@@ -24,20 +24,20 @@ keyboard::keyboard(){}
 keyboard::~keyboard(){}
 
 char keyboard::getInput(){
-	// Set terminal to raw mode 
-	system("stty raw"); 
+	// Set terminal to raw mode
+	system("stty raw");
 
-	// Wait for single character 
-	char input = getchar(); 
+	// Wait for single character
+	char input = getchar();
 
-	// Reset terminal to normal "cooked" mode 
-	system("stty cooked"); 
-	
+	// Reset terminal to normal "cooked" mode
+	system("stty cooked");
+
 	cout << "\b\b\b\b\b    \b\b\b\b\b";
-	
+
 	return input;
 }
 
 void keyboard::checkInput(char input){
-	printf("input = %c kode = %d\n", input, input); 
+	printf("input = %c kode = %d\n", input, input);
 }

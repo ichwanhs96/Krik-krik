@@ -12,6 +12,12 @@ Color::Color(int R_, int G_, int B_) {
     B = B_;
 }
 
+void Color::operator=(Color& c) {
+    R = c.getR();
+    G = c.getG();
+    B = c.getB();
+}
+
 int Color::getR() {
     return R;
 }
