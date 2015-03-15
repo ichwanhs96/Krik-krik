@@ -20,6 +20,7 @@
 using namespace std;
 
 screen::screen(){
+    system("clear");
 
 	/* open the file for reading and writing */
 	fbfd = open("/dev/fb0",O_RDWR);
@@ -55,6 +56,7 @@ screen::screen(){
 }
 
 screen::screen(long int screensize){
+    system("clear");
 	screensize = screensize;
 
 	/* open the file for reading and writing */
@@ -104,7 +106,7 @@ void screen::draw(vector<Point> draw_point, Color color, string type){
 	int iterator = draw_point.size();
 	string strDynamic = "dynamic";
 	string strStatic = "static";
-	
+
     for (int i=0;i < iterator;i++)
     {
         location = getLocationForBuffer(draw_point[i]);
@@ -114,11 +116,11 @@ void screen::draw(vector<Point> draw_point, Color color, string type){
         }
         else
         {
-            unsigned short int t = color.R<<11 | color.G << 5 | color.B;
+            unsigned short int t = color.getR()<<11 | color.getG() << 5 | color.getB();
             *((unsigned short int*)(fbp + location)) = t;
         }
     }
-    
+
     if(type.compare(strDynamic) == 0)
     {
 		otherfunction::addVector(draw_point, &displayDynamicPoint);
@@ -132,9 +134,9 @@ void screen::draw(vector<Point> draw_point, Color color, string type){
 void screen::putPixel(Point P, Color color){
 	int location;
     location = getLocationForBuffer(P);
-    *(fbp+location) = color.B;
-    *(fbp+location+1) = color.G;
-    *(fbp+location+2) = color.R;
+    *(fbp+location) = color.getB();
+    *(fbp+location+1) = color.getG();
+    *(fbp+location+2) = color.getR();
     *(fbp+location+3) = 0;
 }
 
@@ -144,7 +146,6 @@ int screen::getLocationForBuffer(Point P){
 
 void screen::clearScreen(){
 	Color c;
-	c.R = 0; c.G = 0; c.B = 0;
 	draw(displayDynamicPoint, c, "");
 	displayDynamicPoint.clear();
 }
@@ -162,4 +163,53 @@ vector<Point> screen::getDisplayPoint(string type){
 	}
 	else
 		return displayDynamicPoint;
+}
+
+Color screen::getPixel(Point P){
+    int loc;
+    int R,G,B;
+    loc = getLocationForBuffer(P);
+    R = (int)(*(fbp+loc+2));
+    G = (int)(*(fbp+loc+1));
+    B = (int)(*(fbp+loc));
+    Color c(R,G,B);
+    return c;
+}
+
+bool screen::is_black(Point P)
+{
+    Color c = getPixel(P);
+    return (c.getR() == 0 && c.getG() == 0 && c.getB() == 0);
+}
+
+void screen::flood_fill(Point P, Color color)
+{
+    Point _P;
+
+    putPixel(P,color);
+    displayDynamicPoint.push_back(P);
+
+    // right
+    _P.x = P.x+1;
+    _P.y = P.y;
+    if (is_black(_P))
+        flood_fill(_P,color);
+
+    // left
+    _P.x = P.x-1;
+    _P.y = P.y;
+    if (is_black(_P))
+        flood_fill(_P,color);
+
+    // down
+    _P.x = P.x;
+    _P.y = P.y+1;
+    if (is_black(_P))
+        flood_fill(_P,color);
+
+    // up
+    _P.x = P.x;
+    _P.y = P.y-1;
+    if (is_black(_P))
+        flood_fill(_P,color);
 }

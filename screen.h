@@ -30,6 +30,9 @@ class screen{
         int getLocationForBuffer(Point P);
         void clearScreen();
 		vector<Point> getDisplayPoint(string type);
+		Color getPixel(Point P);
+		bool is_black(Point P);
+		void flood_fill(Point P, Color color);
 	private:
 		long int screensize;
 		int fbfd;  /* frame buffer file descriptor */
