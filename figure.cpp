@@ -270,3 +270,49 @@ vector<Point> figure::moveFigure(vector<Point> figurePoint, int moveX, int moveY
 	}
 	return movingFigure;
 }
+
+vector<Point> figure::makeObjectForZoom(string filename, screen *scr){
+	ifstream file;
+    vector<Point> object_point,dot_point,fig_point;
+    Point P;
+    char type;
+    int length;
+
+	if(!filename.empty()){	
+		file.open(filename.c_str());
+		if (file.is_open()) {
+			while (!file.eof()) {
+				file >> type;
+				if (type == 'L') {
+					file >> length;
+					for (int i=0;i<length;i++) {
+						file >> P.x >> P.y;
+						dot_point.push_back(P);
+					}
+					fig_point = figure::makeFigure(dot_point);
+					(*scr).addZoomingPoint(filename, dot_point);
+					otherfunction::addVector(fig_point,&object_point);
+					dot_point.clear();
+				}
+			}
+		}
+		
+		file.close();
+	}
+	else
+		printf("nama file harus diisi!\n");
+
+    return object_point;
+}
+
+Point figure::getPositionFigure(vector<Point> figurePoint){
+	int iterator = figurePoint.size();
+	Point result = figurePoint[0];
+	for(int i = 0; i < iterator; i++){
+		if(result.x > figurePoint[i].x)
+			result.x = figurePoint[i].x;
+		if(result.y > figurePoint[i].y)
+			result.y = figurePoint[i].y;
+	}
+	return result;
+}

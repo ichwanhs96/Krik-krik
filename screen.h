@@ -17,6 +17,7 @@
 
 #include "Point.h"
 #include "Color.h"
+#include "Zoom.h"
 
 using namespace std;
 
@@ -33,6 +34,9 @@ class screen{
 		Color getPixel(Point P);
 		bool is_black(Point P);
 		void flood_fill(Point P, Color color);
+		void addZoomingPoint(string id, vector<Point> linePoint);
+		vector<Zoom> getZoomingPoint();
+		void moveZoomingPoint(string id, int moveX, int moveY);
 	private:
 		long int screensize;
 		int fbfd;  /* frame buffer file descriptor */
@@ -41,5 +45,6 @@ class screen{
 		struct fb_fix_screeninfo finfo;
 		vector<Point> displayStaticPoint;
 		vector<Point> displayDynamicPoint;
+		vector<Zoom> zoomingPoint;
 };
 #endif

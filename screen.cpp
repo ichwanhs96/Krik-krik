@@ -2,6 +2,7 @@
 #include "Point.h"
 #include "Color.h"
 #include "otherfunction.h"
+#include "Zoom.h"
 
 #include <vector>
 #include <string>
@@ -97,6 +98,7 @@ screen::~screen(){
 	vector<Point>().swap(displayDynamicPoint);
 	displayStaticPoint.clear();
 	vector<Point>().swap(displayStaticPoint);
+	vector<Zoom>().swap(zoomingPoint);
 	munmap(fbp, screensize);
 	close(fbfd);
 }
@@ -212,4 +214,29 @@ void screen::flood_fill(Point P, Color color)
     _P.y = P.y-1;
     if (is_black(_P))
         flood_fill(_P,color);
+}
+
+void screen::addZoomingPoint(string id, vector<Point> linePoint){
+	Zoom tmp;
+	tmp.id = id;
+	tmp.linePoint = linePoint;
+	zoomingPoint.push_back(tmp);
+}
+
+vector<Zoom> screen::getZoomingPoint(){
+	return zoomingPoint;
+}
+
+void screen::moveZoomingPoint(string id, int moveX, int moveY){
+	int iterator, iterasi;
+	iterator = zoomingPoint.size();
+	for(int i = 0; i < iterator; i++){
+		if(zoomingPoint[i].id.compare(id) == 0){
+			iterasi = zoomingPoint[i].linePoint.size();
+			for(int j = 0; j < iterasi; j++){
+				zoomingPoint[i].linePoint[j].x += moveX;
+				zoomingPoint[i].linePoint[j].y += moveY;
+			}
+		}
+	}
 }

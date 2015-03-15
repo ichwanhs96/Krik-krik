@@ -9,8 +9,8 @@ using namespace std;
 class zooming{
 	typedef int OutCode;
 	public:
-		OutCode ComputeOutCode(Point P, Point Rect_P, int size);
-		vector<Point> zoom(Point P0, Point P1, Point Rect_P, int size);
+		static OutCode ComputeOutCode(Point P, Point Rect_P, int size);
+		static vector<Point> zoom(Point P0, Point P1, Point Rect_P, int size);
 	private:
 		static const int INSIDE = 0; // 0000
 		static const int LEFT = 1;   // 0001
