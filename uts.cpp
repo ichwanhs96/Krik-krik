@@ -6,7 +6,6 @@
 #include "figure.h"
 #include "otherfunction.h"
 #include "screen.h"
-#include "rect.h"
 
 
 #include <unistd.h>
@@ -30,9 +29,9 @@ using namespace std;
 screen scr;
 
 void drawVirus(vector<Point> *virusDistance, vector<int> *virusType, vector<Color> *virusColor);
-void makeColorBubble(screen *scr, Point center, Color color);
-void makeBubbleFigureIn(screen *scr, Point center, Color color, string figureName);
-
+void makeColorBubble(Point center, Color color);
+void makeBubbleFigureIn(Point center, Color color, string figureName);
+void drawNumber(Point offset, string numberString);
 
 int main() {
     const int virus_width = 21;
@@ -50,8 +49,6 @@ int main() {
     /*** FRAME DRAW ***/
     scr.draw(figure::makeObject("frame.txt"),white,"static");
 
-
-
     /*** VIRUS DRAW ***/
     vector<Point> virusDistance;
     vector<int> virusType;
@@ -63,20 +60,29 @@ int main() {
     // red bubble
     center.x = 340;
     center.y = 550;
-    makeColorBubble(&scr, center, red);
+    makeColorBubble(center, red);
+    center.y = 500;
+    drawNumber(center,"one");
 
     // yellow bubble
     center.x += 100;
-    makeColorBubble(&scr, center, yellow);
+    center.y = 550;
+    makeColorBubble(center, yellow);
+    center.y = 500;
+    drawNumber(center,"two");
+
 
     // green bubble
     center.x += 100;
-    makeColorBubble(&scr, center, green);
+    center.y = 550;
+    makeColorBubble(center, green);
+    center.y = 500;
+    drawNumber(center,"three");
 
     // circle with figure inside
     center.x = 220;
     center.y = 530;
-    makeBubbleFigureIn(&scr, center, green, "square"); // square, diamond, triangle
+    makeBubbleFigureIn(center, green, "square"); // square, diamond, triangle
 
     /******** Game Looping ********/
     do {
@@ -143,22 +149,132 @@ void drawVirus(vector<Point> *virusDistance, vector<int> *virusType, vector<Colo
     }
 }
 
-void makeColorBubble(screen *scr, Point center, Color color){
+void makeColorBubble(Point center, Color color){
     vector<Point> bubble;
 
     bubble = figure::makeCircle(center, 20);
-    (*scr).draw(bubble, color, "static");
-    (*scr).flood_fill(center, color);
+    scr.draw(bubble, color, "static");
+    scr.flood_fill(center, color);
 }
 
-void makeBubbleFigureIn(screen *scr, Point center, Color color, string figureName){
+void drawNumber(Point offset, string numberString) {
+    Color white(255,255,255);
+    Point P1,P2;
+
+    vector<Point> number;
+    vector<Point> point;
+
+    if (numberString.compare("one") == 0) {
+        P1.x = offset.x;
+        P1.y = offset.y;
+
+        P2.x = offset.x;
+        P2.y = offset.y + 20;
+        number = figure::makeLine(P1,P2);
+
+        P1.x = offset.x;
+        P1.y = offset.y;
+
+        P2.x = offset.x - 6;
+        P2.y = offset.y + 6;
+        point = figure::makeLine(P1,P2);
+        otherfunction::addVector(point,&number);
+
+        P1.x = offset.x - 10;
+        P1.y = offset.y + 20;
+
+        P2.x = offset.x + 10;
+        P2.y = offset.y + 20;
+        point = figure::makeLine(P1,P2);
+        otherfunction::addVector(point,&number);
+    }
+    else if (numberString.compare("two") == 0) {
+        P1.x = offset.x-10;
+        P1.y = offset.y;
+
+        P2.x = offset.x+10;
+        P2.y = offset.y;
+
+        number = figure::makeLine(P1,P2);
+
+        P1.x = offset.x+10;
+        P1.y = offset.y;
+        P2.x = offset.x+10;
+        P2.y = offset.y+10;
+        point = figure::makeLine(P1,P2);
+        otherfunction::addVector(point,&number);
+
+        P1.x = offset.x+10;
+        P1.y = offset.y+10;
+        P2.x = offset.x-10;
+        P2.y = offset.y+10;
+        point = figure::makeLine(P1,P2);
+        otherfunction::addVector(point,&number);
+
+        P1.x = offset.x-10;
+        P1.y = offset.y+10;
+        P2.x = offset.x-10;
+        P2.y = offset.y+20;
+        point = figure::makeLine(P1,P2);
+        otherfunction::addVector(point,&number);
+
+        P1.x = offset.x-10;
+        P1.y = offset.y+20;
+        P2.x = offset.x+10;
+        P2.y = offset.y+20;
+        point = figure::makeLine(P1,P2);
+        otherfunction::addVector(point,&number);
+    }
+
+    else if (numberString.compare("three") == 0) {
+        P1.x = offset.x-10;
+        P1.y = offset.y;
+
+        P2.x = offset.x+10;
+        P2.y = offset.y;
+
+        number = figure::makeLine(P1,P2);
+
+        P1.x = offset.x+10;
+        P1.y = offset.y;
+        P2.x = offset.x+10;
+        P2.y = offset.y+10;
+        point = figure::makeLine(P1,P2);
+        otherfunction::addVector(point,&number);
+
+        P1.x = offset.x+10;
+        P1.y = offset.y+10;
+        P2.x = offset.x-10;
+        P2.y = offset.y+10;
+        point = figure::makeLine(P1,P2);
+        otherfunction::addVector(point,&number);
+
+        P1.x = offset.x+10;
+        P1.y = offset.y+10;
+        P2.x = offset.x+10;
+        P2.y = offset.y+20;
+        point = figure::makeLine(P1,P2);
+        otherfunction::addVector(point,&number);
+
+        P1.x = offset.x-10;
+        P1.y = offset.y+20;
+        P2.x = offset.x+10;
+        P2.y = offset.y+20;
+        point = figure::makeLine(P1,P2);
+        otherfunction::addVector(point,&number);
+    }
+
+    scr.draw(number,white,"static");
+}
+
+void makeBubbleFigureIn(Point center, Color color, string figureName){
     Color white(255,255,255);
     vector<Point> bubble;
     vector<Point> figu;
     Point poin;
 
     bubble = figure::makeCircle(center, 40);
-    (*scr).draw(bubble, white, "static" );
+    scr.draw(bubble, white, "static" );
 
     if (figureName.compare("square")==0){
         poin.x = center.x - 20;
@@ -204,6 +320,6 @@ void makeBubbleFigureIn(screen *scr, Point center, Color color, string figureNam
         figu.push_back(poin);
     }
     bubble = figure::makeFigure(figu);
-    (*scr).draw(bubble, color, "static");
-    (*scr).flood_fill(center, color);
+    scr.draw(bubble, color, "static");
+    scr.flood_fill(center, color);
 }
