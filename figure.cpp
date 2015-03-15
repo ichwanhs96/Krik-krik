@@ -227,3 +227,15 @@ vector<Point> figure::make3DCube(Vector3i P[], Vector3i eye){
 	
 	return cube_point;
 }
+
+vector<Point> figure::moveFigure(vector<Point> figurePoint, int moveX, int moveY){
+	int iterator;
+	vector<Point> movingFigure;
+	iterator = figurePoint.size();
+	movingFigure.resize(iterator);
+    for(int i = 0; i < iterator; i++){
+		movingFigure[i].x = figurePoint[i].x + moveX;
+		movingFigure[i].y = figurePoint[i].y + moveY;
+	}
+	return movingFigure;
+}

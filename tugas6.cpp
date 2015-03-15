@@ -107,7 +107,6 @@ int main() {
 	modeTugas_point = grafika.getDisplayPoint("dynamic");
 
     while(input_key!='q'){
-<<<<<<< HEAD
 		figure_point = figure::make3DCube(P1, eyeView);
 		grafika.draw(figure_point, c, "dynamic");
 
@@ -123,7 +122,6 @@ int main() {
 		figure_point = figure::makeObject("frame.txt");
 		grafika.draw(figure_point, c, "static");
 
-=======
 		figure_point = figure::makeObject("frame.txt");
 		grafika.draw(figure_point, c, "static");
 		
@@ -146,19 +144,14 @@ int main() {
 		}
 		*/ 
 		
->>>>>>> origin/master
 		input_key = keyboard::getInput();
 		if(input_key == 32 && modeTugas)
 			modeTugas = false;
 		else if(input_key == 32 && !modeTugas){
 			modeTugas = true;
-<<<<<<< HEAD
-
-=======
-			modeTugas_point = grafika.getDisplayPoint("dynamic");
+			//modeTugas_point = grafika.getDisplayPoint("dynamic");
 		}
 		
->>>>>>> origin/master
 		if(!modeTugas){
 			if(input_key == 67)
 					eyeView.x += 10;
@@ -207,11 +200,8 @@ int main() {
 					P3[i].x += 10;
 					P3[i].y += 10;
 					P4[i].x += 10;
-<<<<<<< HEAD
 					P4[i].y += 10;
-=======
 					P4[i].y += 10;	
->>>>>>> origin/master
 				}
 			}
 			if(input_key == 68){
