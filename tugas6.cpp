@@ -129,10 +129,14 @@ int main() {
 			if(eyeView.x > 0)
 				eyeView.x -=10;
 				
+		figure_point.clear();
+				
 		grafika.clearScreen();
 		//printf("input key = %c kode = %d\n", input_key, input_key);
 		// atas = 65 bawah = 66 kanan = 67 kiri = 68 spasi = 32
 	}
+	vector<Point>().swap(figure_point);
+	vector<Point>().swap(modeTugas_point);
     grafika.~screen();
 	return 0;
 }

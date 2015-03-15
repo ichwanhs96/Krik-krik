@@ -1,9 +1,9 @@
 #include "Color.h"
 
 Color::Color() {
-    R = 0;
-    G = 0;
-    B = 0;
+    R = 1;
+    G = 1;
+    B = 1;
 }
 
 Color::Color(int R_, int G_, int B_) {

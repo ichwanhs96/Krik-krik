@@ -29,15 +29,14 @@ using namespace std;
 
 screen scr;
 
-void drawVirus(vector<Point> *virusDistance, vector<int> *virusType, vector<Color> *virusColor);
+//vector<vector<Point>> drawVirus(vector<Point> *virusDistance, vector<int> *virusType, vector<Color> *virusColor);
 void makeColorBubble(Point center, Color color);
 void makeBubbleFigureIn(Point center, Color color, string figureName);
 void drawNumber(Point offset, string numberString);
 
 int main() {
-    const int virus_width = 21;
-    const int virus_height = 23;
     srand(time(NULL));
+    system("clear");
 
     /* Color used */
     Color white(255,255,255);
@@ -45,38 +44,34 @@ int main() {
     Color green(0,255,0);
     Color yellow(255,255,0);
 
-    Point center;
+    Point center, centerRed, centerYellow, centerGreen;
 
     /*** FRAME DRAW ***/
     scr.draw(figure::makeObject("frame.txt"),white,"static");
 
-    /*** VIRUS DRAW ***/
-    vector<Point> virusDistance;
-    vector<int> virusType;
-    vector<Color> virusColor;
-
-    drawVirus(&virusDistance,&virusType,&virusColor);
-
     /*** BUBBLE DRAW ***/
     // red bubble
+    centerRed.x = 340;
+    centerRed.y = 550;
+    makeColorBubble(centerRed, red);
     center.x = 340;
-    center.y = 550;
-    makeColorBubble(center, red);
     center.y = 500;
     drawNumber(center,"one");
 
     // yellow bubble
+    centerYellow.x = center.x + 100;
+    centerYellow.y = 550;
+    makeColorBubble(centerYellow, yellow);
     center.x += 100;
-    center.y = 550;
-    makeColorBubble(center, yellow);
     center.y = 500;
     drawNumber(center,"two");
 
 
     // green bubble
+    centerGreen.x = center.x + 100;
+    centerGreen.y = 550;
+    makeColorBubble(centerGreen, green);
     center.x += 100;
-    center.y = 550;
-    makeColorBubble(center, green);
     center.y = 500;
     drawNumber(center,"three");
 
@@ -84,6 +79,12 @@ int main() {
     center.x = 220;
     center.y = 530;
     makeBubbleFigureIn(center, green, "square"); // square, diamond, triangle
+    
+    /***** variable for virus *****/
+    int virusType = 0; // 0 = square, 1 = diamond, 2 = triangle
+    int virusColor = 0; // 0 = red, 1 = yellow, 2 = green
+    int virusImage = 0; //0 = square, 1 = diamond, 2 = triangle
+    Point virusPosition;
 
 	/******** variable clipping ********/
 	vector<Point> figure_point, panning_point, window_point, karakter_point, zoom_point, dot_point;
@@ -91,24 +92,84 @@ int main() {
     int iterator, iterasi;
     Color c(255,255,255);
 
-	/******** debug clipping ********/
+	/******** inisiasi clipping dan panning ********/
 	window_point = figure::makeObject("window.txt");
-    window_point = figure::moveFigure(window_point, 595, 295);
+    window_point = figure::moveFigure(window_point, 595, 345);
     scr.draw(window_point, c, "dynamic");
-    karakter_point = figure::makeObjectForZoom("karakter_kotak.txt", &scr);
-    karakter_point = figure::moveFigure(karakter_point, 320, 240);
-    scr.moveZoomingPoint("karakter_kotak.txt", 320, 240);
-    scr.draw(karakter_point, c, "dynamic");
+    
+    //acak gambar
+	virusImage = rand() % 3;
+	virusPosition.x = 5 + (rand() % (int)(590 - 5 + 1));
+	virusPosition.y = 5 + (rand() % (int)(290 - 5 + 1));
+	switch(virusImage){
+		case 0: karakter_point = figure::makeObjectForZoom("karakter_kotak.txt", &scr);
+				karakter_point = figure::moveFigure(karakter_point, virusPosition.x, virusPosition.y);
+				scr.moveZoomingPoint("karakter_kotak.txt", virusPosition.x, virusPosition.y);
+				scr.draw(karakter_point, c, "dynamic");
+				break;
+		case 1: karakter_point = figure::makeObjectForZoom("karakter_diamond.txt", &scr);
+				karakter_point = figure::moveFigure(karakter_point, virusPosition.x, virusPosition.y);
+				scr.moveZoomingPoint("karakter_diamond.txt", virusPosition.x, virusPosition.y);
+				scr.draw(karakter_point, c, "dynamic");
+				break;		
+		case 2: karakter_point = figure::makeObjectForZoom("karakter_segitiga.txt", &scr);
+				karakter_point = figure::moveFigure(karakter_point, virusPosition.x, virusPosition.y);
+				scr.moveZoomingPoint("karakter_segitiga.txt", virusPosition.x, virusPosition.y);
+				scr.draw(karakter_point, c, "dynamic");
+				break;
+	}
+		
     panning_point = figure::makeObject("panning.txt");
     panning_point = figure::moveFigure(panning_point, 25, 25);
     scr.draw(panning_point, c, "dynamic");
+    
+    /******* debug ********/
+    /*
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    for(int i = 0; i < 15 ;i++){
+		printf("virus distance x = %d y = %d\n", virusDistance[i].x, virusDistance[i].y);
+		//printf("virus color R = %d G = %d B = %d\n", virusColor[i].getR(), virusColor[i].getG(), virusColor[i].getB());
+		printf("virus type = %d\n", virusType[i]);
+	}
+	*/ 
 
     /******** Game Looping ********/
     do {
 		scr.draw(panning_point, c, "dynamic");
 		scr.draw(window_point, c, "dynamic");
 		scr.draw(karakter_point, c, "dynamic");
+		
+		makeColorBubble(centerRed, red);
+		makeColorBubble(centerYellow, yellow);
+		makeColorBubble(centerGreen, green);
+		
+		switch(virusType){
+			case 0 : if(virusColor == 0)
+						makeBubbleFigureIn(center, red, "square");
+					 else if(virusColor == 1)
+						makeBubbleFigureIn(center, yellow, "square");
+					 else if(virusColor == 2)
+						makeBubbleFigureIn(center, green, "square");
+					 break;
+			case 1 : if(virusColor == 0)
+						makeBubbleFigureIn(center, red, "diamond");
+					 else if(virusColor == 1)
+						makeBubbleFigureIn(center, yellow, "diamond");
+					 else if(virusColor == 2)
+						makeBubbleFigureIn(center, green, "diamond");
+					 break;
+			case 2 : if(virusColor == 0)
+						makeBubbleFigureIn(center, red, "triangle");
+					 else if(virusColor == 1)
+						makeBubbleFigureIn(center, yellow, "triangle");
+					 else if(virusColor == 2)
+						makeBubbleFigureIn(center, green, "triangle");
+					 break;
+		}
 
+		/******* clipping *********/
 		iterator = scr.getZoomingPoint().size();
 		
 		for(int i = 0; i < iterator; i++){
@@ -116,9 +177,10 @@ int main() {
 			for(int j = 0; j < iterasi-1; j++){
 				zoom_point = zooming::zoom(scr.getZoomingPoint()[i].linePoint[j], scr.getZoomingPoint()[i].linePoint[j+1], figure::getPositionFigure(panning_point), 30);
 				if (!zoom_point.empty()){
-					for (int k = 0;k<zoom_point.size();k++) {
+					int it = zoom_point.size();
+					for (int k = 0;k< it ;k++) {
 						zoom_point[k].x = (zoom_point[k].x - figure::getPositionFigure(panning_point).x) * (5 / 1) + 595;
-						zoom_point[k].y = (zoom_point[k].y - figure::getPositionFigure(panning_point).y) * (5 / 1) + 295;
+						zoom_point[k].y = (zoom_point[k].y - figure::getPositionFigure(panning_point).y) * (5 / 1) + 345;
 					}
 					dot_point.push_back(zoom_point[0]);
 					dot_point.push_back(zoom_point[1]);
@@ -129,6 +191,23 @@ int main() {
 		}
 		
 		inputKey = keyboard::getInput();
+		
+		//enter kode = 13
+		
+		if(inputKey == 'q'){
+			if(virusType < 2)
+				virusType += 1;
+			else virusType = 0;
+		}
+		
+		if(inputKey == 49)
+			virusColor = 0;
+		if(inputKey == 50)
+			virusColor = 1;
+		if(inputKey == 51)
+			virusColor = 2;
+		
+		/******** panning ********/
 		if(inputKey == 65)
 			if(figure::getPositionFigure(panning_point).y > 25)
 				panning_point = figure::moveFigure(panning_point, 0, -5);
@@ -141,6 +220,38 @@ int main() {
 		if(inputKey == 68)
 			if(figure::getPositionFigure(panning_point).x > 5)
 				panning_point = figure::moveFigure(panning_point, -5, 0);
+				
+		if(inputKey == 13 && figure::getPositionFigure(panning_point).x < virusPosition.x && figure::getPositionFigure(panning_point).y < virusPosition.y){
+			if(virusType == virusImage){
+				Point pVirus;
+				pVirus.x = virusPosition.x + 1;
+				pVirus.y = virusPosition.y + 8;
+				vector<Point> tmp1 = scr.getDisplayPoint("dynamic");
+				switch(virusColor){
+					case 0: scr.flood_fill(pVirus, red);
+							break;
+					case 1: scr.flood_fill(pVirus, yellow);
+							break;
+					case 2: scr.flood_fill(pVirus, green);
+							break;
+				}
+				vector<Point> tmp2 = scr.getDisplayPoint("dynamic");
+				int it = tmp1.size();
+				for(int i = 0; i < it; i++){
+					otherfunction::deleteVector(&tmp2, tmp1[i]);
+				}
+				switch(virusImage){
+					case 0: scr.addZoomingPoint("karakter_kotak.txt", tmp2);
+							break;
+					case 1: scr.addZoomingPoint("karakter_diamond.txt", tmp2);
+							break;
+					case 2: scr.addZoomingPoint("karakter_segitiga.txt", tmp2);
+							break;
+				}
+				vector<Point>().swap(tmp1);
+				vector<Point>().swap(tmp2);
+			}
+		}
 		
 		scr.clearScreen();
 
@@ -157,7 +268,8 @@ int main() {
     return 0;
 }
 
-void drawVirus(vector<Point> *virusDistance, vector<int> *virusType, vector<Color> *virusColor) {
+/*
+vector<vector<Point>> drawVirus(vector<Point> *virusDistance, vector<int> *virusType, vector<Color> *virusColor) {
     vector<vector<Point>> virusPoint;
     const int nVirus = 15;
     const int offsetVirusX = 175;
@@ -211,7 +323,9 @@ void drawVirus(vector<Point> *virusDistance, vector<int> *virusType, vector<Colo
         scr.draw(virusPoint[i],Color(255,255,255),"dynamic");
         scr.flood_fill(P,(*virusColor)[i]);
     }
+    return virusPoint;
 }
+*/ 
 
 void makeColorBubble(Point center, Color color){
     vector<Point> bubble;
@@ -384,6 +498,6 @@ void makeBubbleFigureIn(Point center, Color color, string figureName){
         figu.push_back(poin);
     }
     bubble = figure::makeFigure(figu);
-    scr.draw(bubble, color, "static");
+    scr.draw(bubble, color, "dynamic");
     scr.flood_fill(center, color);
 }

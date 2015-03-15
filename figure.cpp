@@ -256,6 +256,207 @@ vector<Point> figure::make3DCube(Vector3i P[], Vector3i eye){
 	vector<Point>().swap(dot_point);
 	vector<Point>().swap(fig_point);
 	
+	iterator = counter.size();
+	
+	for(int i = 0; i < iterator; i++){
+		if(counter[i] == 4){
+			int iterasi;
+			dot_point.push_back(A1[6]);
+			dot_point.push_back(A1[4]);
+			dot_point.push_back(A1[5]);
+			
+			fig_point = figure::makeFigure(dot_point);
+			
+			iterasi = fig_point.size();
+			
+			for(int j = 0; j < iterasi; j++){
+				otherfunction::deleteVector(&cube_point, fig_point[j]);
+			}
+	
+			vector<Point>().swap(dot_point);
+			vector<Point>().swap(fig_point);
+			
+			dot_point.push_back(A1[0]);
+			dot_point.push_back(A1[4]);
+			
+			fig_point = figure::makeFigure(dot_point);
+			
+			iterasi = fig_point.size();
+			
+			for(int j = 0; j < iterasi; j++){
+				otherfunction::deleteVector(&cube_point, fig_point[j]);
+			}
+			
+			vector<Point>().swap(dot_point);
+			vector<Point>().swap(fig_point);
+		}
+		if(counter[i] == 5){
+			bool isContinue = true;
+			for(int j = 0; j < iterator;j++){
+				if(counter[j] == 4){
+					isContinue = false;
+					break;
+				}
+			}
+			int iterasi;
+			if(isContinue){
+				dot_point.push_back(A1[4]);
+				dot_point.push_back(A1[5]);
+				dot_point.push_back(A1[7]);
+				
+				fig_point = figure::makeFigure(dot_point);
+				
+				iterasi = fig_point.size();
+				
+				for(int j = 0; j < iterasi; j++){
+					otherfunction::deleteVector(&cube_point, fig_point[j]);
+				}
+		
+				vector<Point>().swap(dot_point);
+				vector<Point>().swap(fig_point);
+			}
+			else{
+				dot_point.push_back(A1[5]);
+				dot_point.push_back(A1[7]);
+				
+				fig_point = figure::makeFigure(dot_point);
+				
+				iterasi = fig_point.size();
+				
+				for(int j = 0; j < iterasi; j++){
+					otherfunction::deleteVector(&cube_point, fig_point[j]);
+				}
+		
+				vector<Point>().swap(dot_point);
+				vector<Point>().swap(fig_point);
+			}
+				
+			dot_point.push_back(A1[1]);
+			dot_point.push_back(A1[5]);
+			
+			fig_point = figure::makeFigure(dot_point);
+			
+			iterasi = fig_point.size();
+			
+			for(int j = 0; j < iterasi; j++){
+				otherfunction::deleteVector(&cube_point, fig_point[j]);
+			}
+			
+			vector<Point>().swap(dot_point);
+			vector<Point>().swap(fig_point);
+		}
+		if(counter[i] == 6){
+			bool isContinue = true;
+			for(int j = 0; j < iterator;j++){
+				if(counter[j] == 4 && counter[j] == 5){
+					isContinue = false;
+					break;
+				}
+			}
+			int iterasi;
+			if(isContinue){
+				dot_point.push_back(A1[7]);
+				dot_point.push_back(A1[6]);
+				dot_point.push_back(A1[4]);
+				
+				fig_point = figure::makeFigure(dot_point);
+				
+				iterasi = fig_point.size();
+				
+				for(int j = 0; j < iterasi; j++){
+					otherfunction::deleteVector(&cube_point, fig_point[j]);
+				}
+		
+				vector<Point>().swap(dot_point);
+				vector<Point>().swap(fig_point);
+			}
+			else{
+				dot_point.push_back(A1[7]);
+				dot_point.push_back(A1[6]);
+				
+				fig_point = figure::makeFigure(dot_point);
+				
+				iterasi = fig_point.size();
+				
+				for(int j = 0; j < iterasi; j++){
+					otherfunction::deleteVector(&cube_point, fig_point[j]);
+				}
+		
+				vector<Point>().swap(dot_point);
+				vector<Point>().swap(fig_point);
+			}
+			
+			dot_point.push_back(A1[2]);
+			dot_point.push_back(A1[6]);
+			
+			fig_point = figure::makeFigure(dot_point);
+			
+			iterasi = fig_point.size();
+			
+			for(int j = 0; j < iterasi; j++){
+				otherfunction::deleteVector(&cube_point, fig_point[j]);
+			}
+			
+			vector<Point>().swap(dot_point);
+			vector<Point>().swap(fig_point);
+		}
+		if(counter[i] == 7){
+			bool isContinue = true;
+			for(int j = 0; j < iterator;j++){
+				if(counter[j] == 4 || counter[j] == 5 || counter[j] == 6){
+					isContinue = false;
+					break;
+				}
+			}
+			int iterasi;
+			if(isContinue){
+				dot_point.push_back(A1[5]);
+				dot_point.push_back(A1[7]);
+				dot_point.push_back(A1[6]);
+				
+				fig_point = figure::makeFigure(dot_point);
+				
+				iterasi = fig_point.size();
+				
+				for(int j = 0; j < iterasi; j++){
+					otherfunction::deleteVector(&cube_point, fig_point[j]);
+				}
+		
+				vector<Point>().swap(dot_point);
+				vector<Point>().swap(fig_point);
+			}
+			else{
+				dot_point.push_back(A1[5]);
+				dot_point.push_back(A1[7]);
+				
+				fig_point = figure::makeFigure(dot_point);
+				
+				iterasi = fig_point.size();
+				
+				for(int j = 0; j < iterasi; j++){
+					otherfunction::deleteVector(&cube_point, fig_point[j]);
+				}
+		
+				vector<Point>().swap(dot_point);
+				vector<Point>().swap(fig_point);
+			}
+			
+			dot_point.push_back(A1[3]);
+			dot_point.push_back(A1[7]);
+			
+			fig_point = figure::makeFigure(dot_point);
+			
+			iterasi = fig_point.size();
+			
+			for(int j = 0; j < iterasi; j++){
+				otherfunction::deleteVector(&cube_point, fig_point[j]);
+			}
+			
+			vector<Point>().swap(dot_point);
+			vector<Point>().swap(fig_point);
+		}
+	}
+	
 	return cube_point;
 }
 
