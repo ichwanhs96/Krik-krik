@@ -8,4 +8,5 @@ Cara Membuka Game
 Cara Kerja Game :
 1. Gerakkan kotak target dengan arah keyboard
 2. Perhatikan spesifikasi target yang harus ditembak.
-3. Tembak target dengan angka yang mana angka tersebut mewakili warna yang dapat dilihat di dekat spesifikasi target
+3. Sesuaikan bentuk tembakan dengan bentuk yang ada di dahi target dengan tekan tombol Q dan ganti warna dengan angka 1 2 3 maka target akan ditembak sesuai angka yang ditekan.
+4. Jika spesifikasinya tepat maka target akan jatuh dan meledak.
