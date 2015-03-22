@@ -173,6 +173,50 @@ vector<Point> figure::make3DCube(Vector3i P[], Vector3i eye){
 	fig_point = figure::makeFigure(dot_point);
 	otherfunction::addVector(fig_point, &cube_point);
 	
+	dot_point.clear();
+	
+	dot_point.push_back(A1[4]);
+	dot_point.push_back(A1[5]);
+	dot_point.push_back(A1[7]);
+	dot_point.push_back(A1[6]);
+	dot_point.push_back(A1[4]);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	dot_point.clear();
+	
+	dot_point.push_back(A1[0]);
+	dot_point.push_back(A1[4]);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	dot_point.clear();
+	
+	dot_point.push_back(A1[2]);
+	dot_point.push_back(A1[6]);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	dot_point.clear();
+	
+	dot_point.push_back(A1[1]);
+	dot_point.push_back(A1[5]);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	dot_point.clear();
+	
+	dot_point.push_back(A1[3]);
+	dot_point.push_back(A1[7]);
+	
+	fig_point = figure::makeFigure(dot_point);
+	otherfunction::addVector(fig_point, &cube_point);
+	
+	/*
 	vector<Point>().swap(dot_point);
 	vector<Point>().swap(fig_point);
 	
@@ -456,6 +500,10 @@ vector<Point> figure::make3DCube(Vector3i P[], Vector3i eye){
 			vector<Point>().swap(fig_point);
 		}
 	}
+	*/ 
+	
+	vector<Point>().swap(dot_point);
+	vector<Point>().swap(fig_point);
 	
 	return cube_point;
 }

@@ -37,6 +37,7 @@ class screen{
 		void addZoomingPoint(string id, vector<Point> linePoint);
 		vector<Zoom> getZoomingPoint();
 		void moveZoomingPoint(string id, int moveX, int moveY);
+		void setDisplayPoint(vector<Point> v_point, string type);
 	private:
 		long int screensize;
 		int fbfd;  /* frame buffer file descriptor */

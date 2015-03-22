@@ -242,3 +242,17 @@ void screen::moveZoomingPoint(string id, int moveX, int moveY){
 		}
 	}
 }
+
+
+void screen::setDisplayPoint(vector<Point> v_point, string type){
+	string strStatic = "static";
+	if(type.compare(strStatic) == 0)
+    {
+		vector<Point>().swap(displayStaticPoint);
+		displayStaticPoint.resize(v_point.size());
+		displayStaticPoint = v_point;
+	}
+	vector<Point>().swap(displayDynamicPoint);
+	displayDynamicPoint.resize(v_point.size());
+	displayDynamicPoint = v_point;
+}
